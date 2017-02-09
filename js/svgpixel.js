@@ -197,24 +197,6 @@ class CellArray {
 		}
 	}
 	
-	/*
-	on(i,j){
-		this.cells[i][j].on();
-	}
-
-	off(i,j) {
-		this.cells[i][j].off();
-	}
-
-	increment(i,j) {
-		this.cells[i][j].increment();
-	}
-
-	decrementBy(i,j,amount) {
-		this.cells[i,j].decrementBy(amount);
-	}
-	*/
-
 	update(cell) {
 		this.svgPixel.value(cell.rowNum,cell.colNum, cell.value);
 		

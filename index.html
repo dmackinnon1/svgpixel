@@ -24,7 +24,6 @@ svg {
 </head>
 <script src="js/bldrs.js"></script> <!-- required for html/svg building -->
 <script src="js/svgpixel.js"></script>
-
 <script>
 
 <!-- initialize the svg -->
@@ -64,6 +63,7 @@ var centerRule = function (cell) {
 var cornerRule = function(cell) {
 	if ((cell.rowNum == 0 || cell.rowNum == col-1) && (cell.colNum ==0 || cell.colNum == col -1)){
 		cell.increment();
+		cell.increment(); //pour into corners twice as fast
 	}
 };
 
@@ -105,11 +105,10 @@ function setRules() {
 		cells.addRule(offCenterRule);
 	}
 }
-
+<!-- initialization -->
 $(document).ready(function(){
 	setup();
 });
-
 
 $(document).ready(function(){
     $("#refresh").on("click", function(event){
@@ -127,10 +126,7 @@ $(document).ready(function(){
   		setRules();
 	});	
 });
-
-
 </script>
-
 <body>
 
 <nav class="navbar navbar-default" style="margin-bottom:0px">
