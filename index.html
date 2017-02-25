@@ -73,7 +73,7 @@ function setRules() {
 
 function checkDiagonal() {
 	var diag = $('#diagonalsBox').prop('checked');
-	cellBehavior.includeDiagonals = diag;
+	sandpile.includeDiagonals(diag);
 };
 
 <!-- initialization -->
@@ -140,7 +140,7 @@ About </button>
   <div class="media-body">
     <h4 class="media-heading">Sandpile Cellular Automata</h4>
 The area below displays a 'sandpile' cellular automata. A cellular automata is an array of cells that change colors based on a set of rules. 
-For sandpile automata, there are two rules: First, there is 'sand' pouring into one (or more) of the cells. The second rule is that once a cell fills up with sand, the sand pours out eavenly into the cell's neighbors. In this case, if eight or more grains of sand fall into a cell, it empties out into the cells surrounding it. The amount of sand in a cell determines its color. From these simple rules emerges a constantly changing cascading pattern.
+For sandpile automata, there are two rules: First, there is 'sand' pouring into one (or more) of the cells. The second rule is that once a cell fills up with sand, the sand pours out eavenly into the cell's neighbors. A cell is full if the amount of sand in it is greater than the number of cells surrounding it. The amount of sand in a cell determines its color. From these simple rules emerges a constantly changing cascading pattern.
  </div>
 </div>
 <br>
