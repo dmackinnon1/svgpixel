@@ -100,6 +100,16 @@ class GameOfLife {
 		this.cellqueue.push(this.cells.cell(i-2,j+1));		
 	}
 
+	toad(i,j) {
+		this.cellqueue.push(this.cells.cell(i,j));
+		this.cellqueue.push(this.cells.cell(i,j+1));
+		this.cellqueue.push(this.cells.cell(i,j+2));
+		this.cellqueue.push(this.cells.cell(i+1,j+1));
+		this.cellqueue.push(this.cells.cell(i+1,j+2));	
+		this.cellqueue.push(this.cells.cell(i+1,j+3));		
+		
+	}
+
 };
 
 

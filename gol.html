@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<title>Sandpile</title>
+<title>Game Of Life</title>
 </head>
 
 <style>
@@ -19,6 +19,7 @@ svg {
 	display: inline-block;
 	padding: 2px;
 	border: 2px;
+	text-align: center;
 }
 
 h3.centered {
@@ -40,52 +41,44 @@ function isBreakpoint( alias ) {
 }
 
 <!-- initialize the svg -->
-var sandpile;
 var gameOfLife;
-
+var selectedBeastie = "glider";
 
 function setup() {
 	console.log("setup called");
 	if (isBreakpoint("xs")) {
-		sandpile = new Sandpile(300, 300, 51, 51);
+		gameOfLife = new GameOfLife(300, 300, 61, 61);
 		console.log("xs chosen");
 	} else if (isBreakpoint("sm") || isBreakpoint("md")) {
-		sandpile = new Sandpile(300, 400, 31, 43);
+		gameOfLife = new GameOfLife(300, 400, 61, 83);
 		console.log("sm or md chosen");
 	} else {
-		sandpile = new Sandpile(300, 900, 31, 93);
+		gameOfLife = new GameOfLife(300, 900, 61, 93);
 		console.log("lag chosen");
 	}
-	gameOfLife = new GameOfLife(300, 900, 31, 93);
 	gameOfLife.init();
-	sandpile.init();
-	sandpile.includeDiagonals(false);
-	setRules(); 
 	svgPixel.cellFunctions.push(addCell);
 	var timedDraw = setInterval(run, 500);
-	$("#pixelDisplay").html(sandpile.svg()); 	
-	$("#pixelDisplay2").html(gameOfLife.svg()); 	
+	$("#pixelDisplay").html(gameOfLife.svg()); 	
 };
 
 function run() {
-	sandpile.doIt();
-	$("#generationDisplay").html("<h3 class='centered'> generation: " + sandpile.generation + "</h3>");
 	gameOfLife.doIt();
+	$("#generationDisplay").html("<h3 class='centered'> generation: " + gameOfLife.generation + "</h3>");
 }
 
 function addCell(i,j) {
-	gameOfLife.glider(i,j);
+	if (selectedBeastie == "glider") {
+		gameOfLife.glider(i,j);
+	} else if (selectedBeastie == "r-pentomino") {
+		gameOfLife.rPentomino(i,j);
+	} else {
+		gameOfLife.toad(i,j);
+	}
 }
 
 
 <!-- the functions to call to display -->
-
-function setRules() {
-	sandpile.clearRules();
-	sandpile.addMainRule();
-	sandpile.addCenterRule();
-	sandpile.addOverEdgesRule();
-}
 
 <!-- initialization -->
 $(document).ready(function(){
@@ -98,6 +91,12 @@ $(document).ready(function(){
 	});
 });
 
+
+$(document).ready(function(){
+	$("form input:radio").on('click',function(e){
+		selectedBeastie = $('input[name=beastie]:checked').val();
+	});
+});
 
 </script>
 <body>
@@ -128,23 +127,30 @@ $(document).ready(function(){
 </div>
 <div class='col-sm-10'>
 <div class="page-header">
-	<h1>Some Simple Cellular Automata</h1>
-</div> 	
 
-<form> <h2> Sandpile  <button id="refresh" class="btn btn-default">Restart</button> </h2></form>
+<form> <h1> Conway's Game of Life <button id="refresh" class="btn btn-default">Restart</button> <a class="btn btn-default" href="/svgpixel">Back</a></h1></form>
+
+</div> 	
 <br>
-<div id="pixelDisplay" style="text-align=center">
+<h3><div class="buttonDiv">
+<form>
+  Clicking will drop: 
+  <label class="radio-inline">
+  <input type="radio" name="beastie" value="glider" checked> glider<br>
+  </label>
+  <lable class="radio-inline">
+  <input type="radio" class="radio-inline" name="beastie" value="r-pentomino"> r-pentomino<br>
+  </lable>
+  <label class="radio-inline">
+  <input type="radio" class="radio-inline" name="beastie" value="toad"> toad<br>
+  </label>
+</form>
 </div>
+</h3>
+<div id="pixelDisplay" style="text-align=center"></div>
 <hr>
 <div id="generationDisplay"></div><hr>
-<br>
-<hr>
-<br>
-<div id="pixelDisplay2" style="text-align=center">
-</div>
-<hr>
-<div id="generationDisplay2"></div><hr>
-<br>
+
 </div>
 
 <div class='col-sm-1'>
